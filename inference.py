@@ -2,7 +2,7 @@ import os
 import numpy as np
 import torch
 from braindecode.util import set_random_seeds
-from braindecode.models import ShallowFBCSPNet
+from braindecode.models import ShallowFBCSPNet, Deep4Net
 from braindecode.datasets import MOABBDataset
 from braindecode.preprocessing import (
     exponential_moving_standardize,
@@ -36,15 +36,22 @@ n_channels = windows_dataset[0][0].shape[0]
 input_window_samples = windows_dataset[0][0].shape[1]
 
 # Load the model for inference
-model = ShallowFBCSPNet(
+# model = ShallowFBCSPNet(
+#     n_channels,
+#     n_classes,
+#     input_window_samples=input_window_samples,
+#     final_conv_length="auto",
+# )
+
+model = Deep4Net(
     n_channels,
     n_classes,
     input_window_samples=input_window_samples,
-    final_conv_length="auto",
+    final_conv_length='auto',
 )
 
 
-model.load_state_dict(torch.load(str(os.getcwd()) + "/models/trained_eeg_model.pth"))
+model.load_state_dict(torch.load(str(os.getcwd()) + "/models/model.pth"))
 model.eval()
 if cuda:
     model.to(device)

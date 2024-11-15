@@ -5,7 +5,7 @@ from braindecode.preprocessing.windowers import create_windows_from_events
 from scipy.stats import zscore
 import mne
 import torch
-from braindecode.models import ShallowFBCSPNet
+from braindecode.models import ShallowFBCSPNet, Deep4Net
 from braindecode.util import set_random_seeds
 from skorch.helper import predefined_split
 from braindecode import EEGClassifier
@@ -48,7 +48,14 @@ classes = list(range(n_classes))
 n_chans = train_set[0][0].shape[0]
 input_window_samples = train_set[0][0].shape[1]
 
-model = ShallowFBCSPNet(
+# model = ShallowFBCSPNet(
+#     n_chans,
+#     n_classes,
+#     input_window_samples=input_window_samples,
+#     final_conv_length='auto',
+# )
+
+model = Deep4Net(
     n_chans,
     n_classes,
     input_window_samples=input_window_samples,
@@ -63,9 +70,9 @@ if cuda:
     model = model.cuda()
 
 # -------------------------------- Traning --------------------------------
-lr = 0.0625 * 0.01
+lr = 0.001 * 1
 weight_decay = 0
-batch_size = 64
+batch_size = 60
 n_epochs = 100
 
 # Use early stopping to monitor validation accuracy
