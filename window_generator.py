@@ -10,7 +10,7 @@ from braindecode.preprocessing import (
 )
 
 # Load the dataset
-dataset = MOABBDataset(dataset_name="Schirrmeister2017", subject_ids=[1,2,3,4])
+dataset = MOABBDataset(dataset_name="Schirrmeister2017", subject_ids=[])
 
 # Preprocessing parameters
 low_cut_hz = 4.0
@@ -27,6 +27,7 @@ C_sensors = ['FC5', 'FC1', 'FC2', 'FC6', 'C3', 'C4', 'CP5',
                 'CPP3h', 'CPP4h', 'CPP6h', 'FFC1h', 'FFC2h', 'FCC1h', 'FCC2h',
                 'CCP1h',
                 'CCP2h', 'CPP1h', 'CPP2h']
+                
 # Define preprocessors
 preprocessors = [
     Preprocessor("pick_channels", ch_names=C_sensors),
