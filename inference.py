@@ -17,7 +17,7 @@ from sklearn.metrics import accuracy_score, classification_report  # For accurac
 windows_dataset = load_concat_dataset(
     path=str(os.getcwd()) + "/windows/data",
     preload=False,
-    ids_to_load=[1,3,5],
+    ids_to_load=[1,3,5,7,9,11,13,15],
     target_name=None,
 )
 
@@ -51,13 +51,13 @@ model = Deep4Net(
 )
 
 
-model.load_state_dict(torch.load(str(os.getcwd()) + "/models/model.pth"))
+model.load_state_dict(torch.load(str(os.getcwd()) + "/models/Deep4Net_persons8_lr0.0001_wd0.1_bs16_acc0.8406.pth"))
 model.eval()
 if cuda:
     model.to(device)
 
 # Create DataLoader
-batch_size = 64
+batch_size = 1
 data_loader = DataLoader(windows_dataset, batch_size=batch_size, shuffle=False)
 
 # Inference and evaluation

@@ -10,7 +10,7 @@ from braindecode.preprocessing import (
 )
 
 # Load the dataset
-dataset = MOABBDataset(dataset_name="Schirrmeister2017", subject_ids=[])
+dataset = MOABBDataset(dataset_name="Schirrmeister2017", subject_ids=[1])
 
 # Preprocessing parameters
 low_cut_hz = 4.0
@@ -27,7 +27,7 @@ C_sensors = ['FC5', 'FC1', 'FC2', 'FC6', 'C3', 'C4', 'CP5',
                 'CPP3h', 'CPP4h', 'CPP6h', 'FFC1h', 'FFC2h', 'FCC1h', 'FCC2h',
                 'CCP1h',
                 'CCP2h', 'CPP1h', 'CPP2h']
-                
+
 # Define preprocessors
 preprocessors = [
     Preprocessor("pick_channels", ch_names=C_sensors),
@@ -47,15 +47,15 @@ trial_start_offset_seconds = -0.5
 sfreq = dataset.datasets[0].raw.info["sfreq"]
 trial_start_offset_samples = int(trial_start_offset_seconds * sfreq)
 
-# Create windows from events
-windows_dataset = create_windows_from_events(
-    dataset,
-    trial_start_offset_samples=trial_start_offset_samples,
-    trial_stop_offset_samples=0,
-    preload=True,
-)
+# # Create windows from events
+# windows_dataset = create_windows_from_events(
+#     dataset,
+#     trial_start_offset_samples=trial_start_offset_samples,
+#     trial_stop_offset_samples=0,
+#     preload=True,
+# )
 
-windows_dataset.save(
-    path=str(os.getcwd()) + "/windows/data",
-    overwrite=True,
-)
+# windows_dataset.save(
+#     path=str(os.getcwd()) + "/windows/data",
+#     overwrite=True,
+# )
