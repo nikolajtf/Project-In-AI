@@ -1,19 +1,25 @@
 import matplotlib.pyplot as plt
 from pathlib import Path
-from braindecode.datautil import load_concat_dataset
 import torch
 import torch.nn.functional as F  # For softmax
+from braindecode.datautil import load_concat_dataset
 from braindecode.util import set_random_seeds
 from braindecode.models import Deep4Net
 from torch.utils.data import DataLoader
-import os
+from motor_control import *
 
+# Paths and settings
+PROJECT_ROOT = Path(__file__).resolve().parent
+DATASET_PATH = PROJECT_ROOT / 'dataset' / 'train'
+CHECKPOINT_PATH = PROJECT_ROOT / 'deep_eeg_model.pth'
+
+# Label mapping dictionary
 label_mapping = {"feet": 0, "left_hand": 1, "rest": 2, "right_hand": 3}
 inv_label_mapping = {v: k for k, v in label_mapping.items()}  # Reverse mapping for numerical to string
 
 # Load dataset
 windows_dataset_loaded = load_concat_dataset(
-    path=str(os.getcwd()) + "/windows/data",
+    path=DATASET_PATH,
     preload=False,
     ids_to_load=[1, 3, 5],
     target_name=None,
@@ -29,8 +35,7 @@ seed = 20200220
 set_random_seeds(seed=seed, cuda=cuda)
 
 # Model settings
-n_classes = 4
-classes = list(range(n_classes))
+n_classes = len(label_mapping)
 n_channels = windows_dataset[0][0].shape[0]
 input_window_samples = windows_dataset[0][0].shape[1]
 
@@ -41,23 +46,16 @@ model = Deep4Net(
     input_window_samples=input_window_samples,
     final_conv_length="auto",
 )
-
-# model = ShallowFBCSPNet(
-#     n_channels,
-#     n_classes,
-#     input_window_samples=input_window_samples,
-#     final_conv_length="auto",
-# )
-
 if cuda:
     model.cuda()
-
-model.load_state_dict(torch.load(str(os.getcwd()) + "/models/Deep4Net_persons8_lr0.0001_wd0.1_bs16_acc0.8406.pth"))
+model.load_state_dict(torch.load(CHECKPOINT_PATH))
 model.eval()  # Set model to evaluation mode
 
 # Create DataLoader
 batch_size = 1
 data_loader = DataLoader(windows_dataset, batch_size=batch_size, shuffle=False)
+
+ac = Ada_con(co_mod = 0, re_only = True)
 
 # Inference and evaluation
 with torch.no_grad():
@@ -74,6 +72,15 @@ with torch.no_grad():
         # Map numerical labels to string labels
         predicted_label_str = inv_label_mapping[predicted.item()]
         true_label_str = inv_label_mapping[labels.item()]
+
+        if predicted_label_str == "left_hand" or predicted_label_str == "right_hand":
+            # Motors close
+            ac.close()
+            print("Motors closing")
+        elif predicted_label_str == "rest":
+            # Motors open
+            ac.start()
+            print("Motors opening")
         
         # Print input, prediction, label, and certainty
         print(f"Sample {idx + 1}:")
