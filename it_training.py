@@ -14,11 +14,15 @@ from sklearn.metrics import accuracy_score, classification_report  # For accurac
 import pandas as pd
 
 # Parameters to test
-persons = [1, 2, 4, 8, 14]
+# persons = [1, 2, 4, 8, 14]
+persons = [14]
 lrs = [0.001, 0.01, 0.0001]
 weight_decays = [0, 0.01, 0.1]
 batch_sizes = [16, 32, 64, 128]
 
+# Model architectures to train
+# models_to_train = [("Deep4Net", Deep4Net), ("ShallowFBCSPNet", ShallowFBCSPNet)]
+models_to_train = [("ShallowFBCSPNet", ShallowFBCSPNet)]
 
 # Training parameters
 n_epochs = 800
@@ -43,12 +47,6 @@ def calculate_training_ids(person_count):
 # Function to calculate inference IDs (odd numbers)
 def calculate_inference_ids(person_count):
     return [i * 2 + 1 for i in range(person_count)]
-
-# Model architectures to train
-models_to_train = [
-    ("Deep4Net", Deep4Net),
-    ("ShallowFBCSPNet", ShallowFBCSPNet)
-]
 
 # Iterate through all parameter combinations
 for model_name, model_class in models_to_train:
