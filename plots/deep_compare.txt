@@ -1,0 +1,55 @@
+8-8
+Accuracy: 0.8406
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.84      0.95      0.89       320
+           1       0.73      0.98      0.84       320
+           2       0.94      0.79      0.86       320
+           3       0.95      0.64      0.77       320
+
+    accuracy                           0.84      1280
+   macro avg       0.86      0.84      0.84      1280
+weighted avg       0.86      0.84      0.84      1280
+
+8-14
+Accuracy: 0.6969
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.72      0.70      0.71       560
+           1       0.57      0.92      0.70       560
+           2       0.88      0.64      0.75       560
+           3       0.78      0.53      0.63       560
+
+    accuracy                           0.70      2240
+   macro avg       0.74      0.70      0.70      2240
+weighted avg       0.74      0.70      0.70      2240
+
+14-14
+Accuracy: 0.7790
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.92      0.65      0.76       560
+           1       0.79      0.80      0.79       560
+           2       0.84      0.77      0.80       560
+           3       0.66      0.90      0.76       560
+
+    accuracy                           0.78      2240
+   macro avg       0.80      0.78      0.78      2240
+weighted avg       0.80      0.78      0.78      2240
+
+14-8
+Accuracy: 0.8656
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.95      0.84      0.89       320
+           1       0.83      0.87      0.85       320
+           2       0.88      0.89      0.89       320
+           3       0.82      0.86      0.84       320
+
+    accuracy                           0.87      1280
+   macro avg       0.87      0.87      0.87      1280
+weighted avg       0.87      0.87      0.87      1280
